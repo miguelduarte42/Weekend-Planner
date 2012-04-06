@@ -1,0 +1,1 @@
+O projecto (Weekend Planner) consiste num portal online onde é possível planear um fim-de-semana turistico dentro de Portugal. O utilizador pode escolher uma zona do país, pontos de interesse (Cultura, Hotéis, Restaurantes e Turismo) e ordená-los pela ordem de visita de forma a criar um roteiro.

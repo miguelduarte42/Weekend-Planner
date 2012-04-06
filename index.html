@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt">
+<head>
+	<title>Weekend Planner</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	
+	<link rel="stylesheet" type="text/css" href="css/global.css" />
+	
+	<script type="text/javascript" src="http://js.sapo.pt/Bundles/SAPOMapsAPI.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.11.custom.min.js"></script>
+	<script type="text/javascript" src="js/raphael.js"></script>
+	<script type='text/javascript' src='js/general.js'></script>
+	<script type="text/javascript" src="js/distritos.js"></script>
+	<script type="text/javascript" src="js/sapoapp_min.js"></script>
+	<script type="text/javascript" src="js/jquery.tipsy.js"></script>
+
+</head>
+			
+<body>
+	<div id="wrap">
+		
+		<div id="header">
+			<div id="logotipo"></div>
+			<div id="informacoes"></div>
+		</div>
+		
+		<div id="main">
+			
+			<div id="options_wrapper">
+				<div id="button_bar">
+					<ul>
+						<li id="button1" class="button active">1.Localidade</li>
+						<li id="button2" class="button">2.Pontos de Interesse</li>
+						<li id="button3" class="button inactive">3.Roteiro</li>
+					</ul>
+				</div>
+				<div id="inside_window">
+					<div id="options_bg">
+						<div id="options_button1" class="options">
+						
+							<div class="title">Seleccionar Distrito</div>
+	
+							<div id="canvas">
+								<div id="paper"></div>
+							</div>
+							
+							<div id="info">
+								<div id="nome_distrito">Vais passear? Nós ajudamos!</div>
+								<div id="descricao_distrito"> 
+									Pesquisa a(s) localidade(s) a visitar, escolhe o que queres visitar, onde queres comer e dormir, desenha o teu roteiro e diverte-te!
+									Para mais informações, acede ao link no canto superior direito da página.
+								 </div>
+							</div>
+							<div class="title">	
+								Pesquisar Localidade	
+							</div>
+							<div id="pesquisa_form">
+											
+							<input type="text" id="localidade_field" name="pesquisa_localidade" placeholder="Escreva uma localidade"/>
+							<input type="button" id="localidade_button" class="action_button" value="Pesquisar" onclick="pesquisaLocalidade(this)"/>
+							
+							</div>
+							
+						</div>
+						<div id="options_button2" class="options" style="display:none;">
+						
+							<div class="title">Seleccionar Pontos de Interesse</div>
+								<dl id="categorias">	
+									<dt id="dt_restaurants" class="categorias closed"><span id="label_restaurants">Restaurantes</span><img id="loading_restaurants" class ="loading" src="images/loading.gif" alt="loading"/></dt> 
+										<dd id="restaurants_list"><ul></ul><div style="clear:both;"></div></dd> 
+									<dt id="dt_hotels" class="categorias closed"><span id="label_hotels">Hotéis</span><img id="loading_hotels" class ="loading" src="images/loading.gif" alt="loading"/></dt> 
+										<dd id="hotels_list"><ul></ul><div style="clear:both;"></div></dd> 
+									<dt id="dt_culture" class="categorias closed"><span id="label_culture">Cultura</span><img id="loading_culture" class ="loading" src="images/loading.gif" alt="loading"/></dt> 
+										<dd id="culture_list"><ul></ul><div style="clear:both;"></div></dd>
+									<dt id="dt_tourism" class="categorias closed"><span id="label_tourism">Turismo</span><img id="loading_tourism" class ="loading" src="images/loading.gif" alt="loading"/></dt> 
+										<dd id="tourism_list"><ul></ul><div style="clear:both;"></div></dd>
+							</dl> 
+														
+						</div>
+						<div id="options_button3" class="options" style="display:none;">
+							
+							<div class="title">Organizar o Roteiro</div>
+							
+							<div id="list_wrapper">
+								<ul id="sortable">
+								</ul>
+							</div>
+							
+							<input type="button" id="botao_roteiro" class="action_button" onclick="obterDireccoes()" value="Roteiro"/>
+				
+						</div>
+					</div>
+					<div id="mapDiv"></div>
+					<div id="result" style="display:none;"></div>
+				
+				</div>
+			
+			</div>
+		
+		</div>
+	</div>
+	<div id="popupWrapper" style="display:none;">
+	<div id="popupContact">
+		<a id="popupContactClose">X</a>
+		<img id="popupSapo" src="images/sapo.png" alt="Sapo"/>
+		<img src="images/logotipo.png" id="popupLogo" title="Weekend Planner">
+		<p id="contactArea">
+			<p>Vais passear neste fim-de-semana? Conhecer uma nova região de Portugal? Saborear a bela <strong>gastronomia</strong>, desfrutar das <strong>paisagens</strong> costeiras ou serranas, conhecer a nossa <strong>história</strong> secular… Nós ajudamos! Com o Weekend Planner, podes planear a tua escapadinha e escolher exactamente aquilo que queres visitar, onde queres comer e onde podes pernoitar.<br/>
+Portanto, acabaram-se as desculpas de não ser <strong>fácil</strong> planear a viagem e conhecer o nosso belo país. Parte à <strong>aventura</strong> e descobre Portugal! Nós ajudamos-te:</p>
+
+<h2>Passo 1 - Localidades</h2>
+
+<p>Escolhe um distrito para visitar através do nosso mapa interactivo ou utiliza a caixa de pesquisa para procurar directamente um local. Clica nas setas do topo para navegar para o próximo passo.</p>
+
+<h2>Passo 2 - Pontos de Interesse</h2>
+
+<p>Depois de encontrares o teu destino ideal, estás pronto para escolher os locais a visitar. Podes optar entre Restaurantes, Hotéis, Cultura e Turismo. Clica em cada uma das categorias para mostrar os respectivos pontos de interesse no mapa. Depois basta indicares quais os que te interessam colocando um visto nas caixas de selecção.</p>
+
+<h2>Passo 3 - Roteiro</h2>
+
+<p>Ordena os pontos de interesse que escolheste para visitar, arrastando as caixas com o seu nome. Por fim, clica no botão "Roteiro" para que a melhor rota seja calculada.</p>
+<br/>
+		<span id="popupFinalSentence">Diverte-te e boa viagem!</span>
+	</div>
+	</div>
+	<div id="footer"><a href="http://mapas.sapo.pt" target="_blank">Powered by Sapo Mapas</a></div>
+</body>
+</html>
